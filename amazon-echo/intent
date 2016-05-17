@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "intent": "TransportIntent",
+      "slots": [
+        {
+          "name": "Location",
+          "type": "LIST_OF_PLACES"
+        }
+      ]
+    }
+  ]
+}

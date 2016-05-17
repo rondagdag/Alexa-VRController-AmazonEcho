@@ -1,0 +1,4 @@
+TransportIntent take me to {Location}
+TransportIntent take me to the {Location}
+TransportIntent transport to {Location}
+TransportIntent move to {Location}
