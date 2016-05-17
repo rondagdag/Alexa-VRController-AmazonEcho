@@ -77,12 +77,6 @@ function onIntent(intentRequest, session, callback) {
     var intent = intentRequest.intent,
         intentName = intentRequest.intent.name;
 
-    // Dispatch to your skill's intent handlers
-    /*if ("MyColorIsIntent" === intentName) {
-        setColorInSession(intent, session, callback);
-    } else if ("WhatsMyColorIntent" === intentName) {
-        getColorFromSession(intent, session, callback);
-    } else*/
     if ("TransportIntent" === intentName) {
         handleTransport(intent, session, callback);
     } else if ("AMAZON.HelpIntent" === intentName) {
