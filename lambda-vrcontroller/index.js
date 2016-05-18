@@ -133,17 +133,30 @@ function handleTransport(intent, session, callback) {
     if (locationSlot) {
         var location = locationSlot.value;
       
-        var socket = require('socket.io-client')('https://alexa-vrcontroller.azurewebsites.net');
+        //var socket = require('socket.io-client')('https://alexa-vrcontroller.azurewebsites.net');
+        var socket = require('socket.io-client')('wss://alexa-vrcontroller.azurewebsites.net');
         socket.on('connect', function(){
             console.log('connected');
+                        
+            socket.on('login', function(data){
+                console.log('login');
+                socket.emit('new message', location); //send location as a message
+            });
+            
+            socket.on('got message', function() {
+                socket.disconnect();
+                callback(sessionAttributes,
+                    buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession));
+            });
+            
             socket.emit('add user', 'alexa'); //login as "Alexa`"
-            console.log('new message');
-            socket.emit('new message', location); //send location as a message
-            socket.emit('disconnect'); //logout
-            callback(sessionAttributes,
-            buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession));
         });
-        socket.emit('add user', 'alexa');
+        
+        /*socket.emit('add user', 'alexa');
+        socket.emit('new message', location); //send location as a message
+        callback(sessionAttributes,
+                buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession));
+*/
     } else {
         speechOutput = "I'm not sure where to go. Please try again";
         repromptText = "I'm not sure where to go, take me to the gym";
