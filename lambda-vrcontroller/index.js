@@ -127,7 +127,7 @@ function handleSessionEndRequest(callback) {
 function handleTransport(intent, session, callback) {
     var repromptText = null;
     var sessionAttributes = {};
-    var shouldEndSession = false;
+    var shouldEndSession = true;
     var speechOutput = "Ok";
     var locationSlot = intent.slots.Location;
     if (locationSlot) {
@@ -136,10 +136,10 @@ function handleTransport(intent, session, callback) {
         var socket = require('socket.io-client')('https://alexa-vrcontroller.azurewebsites.net');
         socket.on('connect', function(){
             console.log('connected');
-            socket.emit('add user', 'alexa');
+            socket.emit('add user', 'alexa'); //login as "Alexa`"
             console.log('new message');
-            socket.emit('new message', location);
-            socket.emit('disconnect');
+            socket.emit('new message', location); //send location as a message
+            socket.emit('disconnect'); //logout
             callback(sessionAttributes,
             buildSpeechletResponse(intent.name, speechOutput, repromptText, shouldEndSession));
         });
